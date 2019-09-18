@@ -1,0 +1,24 @@
+{
+  "name": "reapl",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "repository": "git@github.com:aniravi24/REAPL.git",
+  "author": "Ani Ravi <5902976+aniravi24@users.noreply.github.com>",
+  "license": "MIT",
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "dependencies": {
+    "bs-abstract": "^0.17.0",
+    "bs-css": "^10.0.0",
+    "bs-platform": "^5.0.6",
+    "reason-react": "^0.7.0",
+    "relude": "^0.28.0"
+  },
+  "scripts": {
+    "start:client": "yarn workspace @reapl/client start"
+  }
+}

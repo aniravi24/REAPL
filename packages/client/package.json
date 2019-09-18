@@ -1,0 +1,14 @@
+{
+  "name": "@reapl/client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "parcel-bundler": "^1.12.3"
+  },
+  "scripts": {
+    "parcel": "parcel ./src/index.html --hmr-port 1235",
+    "start": "yarn parcel"
+  }
+}

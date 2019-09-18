@@ -1,0 +1,34 @@
+{
+  "bs-dependencies": ["bs-abstract", "bs-css", "reason-react", "relude"],
+  "bs-dev-dependencies": [],
+  "name": "REAPL",
+  "package-specs": {
+    "in-source": true,
+    "module": "commonjs"
+  },
+  "ppx-flags": [],
+  "reason": {
+    "react-jsx": 3
+  },
+  "refmt": 3,
+  "sources": [
+    {
+      "dir": "packages/server/src",
+      "subdirs": true
+    },
+    {
+      "dir": "packages/shared/src",
+      "subdirs": true
+    },
+    {
+      "dir": "packages/client/src",
+      "subdirs": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "version": "0.1.0",
+  "warnings": {
+    "number": "+A-9-40-42-48",
+    "error": "+A-3-44-102"
+  }
+}

@@ -19,6 +19,8 @@
     "relude": "^0.28.0"
   },
   "scripts": {
-    "start:client": "yarn workspace @reapl/client start"
+    "start:client": "yarn workspace @reapl/client start",
+    "build": "bsb -make-world",
+    "clean": "bsb -clean-world"
   }
 }

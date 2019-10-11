@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "bs-abstract": "^0.17.0",
-    "bs-css": "^10.0.0",
+    "bs-css": "^10.0.1",
     "bs-platform": "^5.0.6",
     "reason-react": "^0.7.0",
-    "relude": "^0.28.0"
+    "relude": "^0.28.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
@@ -24,7 +24,7 @@
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^3.0.8",
-    "lint-staged": "^9.4.1"
+    "lint-staged": "^9.4.2"
   },
   "scripts": {
     "start:client": "yarn workspace @reapl/client start",

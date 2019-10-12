@@ -1,12 +1,20 @@
 {
-  "bs-dependencies": ["bs-abstract", "bs-css", "reason-react", "relude"],
+  "bs-dependencies": [
+    "bs-abstract",
+    "bs-css",
+    "reason-react",
+    "relude",
+    "reason-apollo",
+    "@glennsl/bs-json",
+    "bs-express"
+  ],
   "bs-dev-dependencies": [],
   "name": "REAPL",
   "package-specs": {
     "in-source": true,
     "module": "commonjs"
   },
-  "ppx-flags": [],
+  "ppx-flags": ["graphql_ppx/ppx"],
   "reason": {
     "react-jsx": 3
   },

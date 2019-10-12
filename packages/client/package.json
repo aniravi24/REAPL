@@ -8,7 +8,8 @@
     "parcel-bundler": "^1.12.3"
   },
   "scripts": {
-    "parcel": "parcel ./src/index.html --hmr-port 1235",
-    "start": "yarn parcel"
+    "parcel": "parcel ./src/index.html",
+    "start": "yarn parcel",
+    "build": "parcel build ./src/index.html"
   }
 }

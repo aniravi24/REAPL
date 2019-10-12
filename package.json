@@ -12,9 +12,19 @@
     ]
   },
   "dependencies": {
+    "@glennsl/bs-json": "^5.0.1",
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link-http": "^1.5.16",
     "bs-abstract": "^0.17.0",
     "bs-css": "^10.0.1",
+    "bs-express": "^0.12.1",
     "bs-platform": "^5.0.6",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "morgan": "^1.9.1",
+    "react-apollo": "^3.1.2",
+    "reason-apollo": "^0.17.0",
     "reason-react": "^0.7.0",
     "relude": "^0.28.1"
   },
@@ -22,13 +32,21 @@
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
     "commitizen": "^4.0.3",
+    "concurrently": "^5.0.0",
     "cz-conventional-changelog": "^3.0.2",
+    "graphql_ppx": "^0.2.8",
     "husky": "^3.0.8",
-    "lint-staged": "^9.4.2"
+    "lint-staged": "^9.4.2",
+    "nodemon": "^1.19.3"
   },
   "scripts": {
     "start:client": "yarn workspace @reapl/client start",
-    "build": "bsb -make-world",
+    "build:client": "yarn workspace @reapl/client build",
+    "start:server": "yarn worksace @reapl/server start",
+    "dev:server": "yarn workspace @reapl/server dev",
+    "dev": "concurrently \" yarn start:client \" \" yarn dev:server \"",
+    "watch": "bsb -make-world -w",
+    "build": "bsb -make-world && yarn build:client",
     "clean": "bsb -clean-world"
   },
   "husky": {

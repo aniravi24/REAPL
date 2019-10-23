@@ -22,6 +22,7 @@
     "bs-platform": "^5.0.6",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
+    "helmet": "^3.21.1",
     "morgan": "^1.9.1",
     "react-apollo": "^3.1.2",
     "reason-apollo": "^0.17.0",
@@ -42,7 +43,7 @@
   "scripts": {
     "start:client": "yarn workspace @reapl/client start",
     "build:client": "yarn workspace @reapl/client build",
-    "start:server": "yarn worksace @reapl/server start",
+    "start:server": "yarn workspace @reapl/server start",
     "dev:server": "yarn workspace @reapl/server dev",
     "dev": "concurrently \" yarn start:client \" \" yarn dev:server \"",
     "watch": "bsb -make-world -w",

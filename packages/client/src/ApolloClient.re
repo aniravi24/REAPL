@@ -13,12 +13,9 @@ let headers =
       ("Authorization", Json.Encode.string("Bearer" ++ token)),
     ]);
   };
+
 let link =
-  ApolloLinks.createHttpLink(
-    ~uri="https://localhost:8000/graphql",
-    ~headers,
-    (),
-  );
+  ApolloLinks.createHttpLink(~uri=ClientEnv.graphqlUrl, ~headers, ());
 
 /* apollo client instance */
 let instance = ReasonApollo.createApolloClient(~link, ~cache, ());

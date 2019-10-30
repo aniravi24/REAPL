@@ -16,18 +16,19 @@
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link-http": "^1.5.16",
+    "apollo-server-express": "^2.9.7",
     "bs-abstract": "^0.17.0",
     "bs-css": "^10.0.1",
     "bs-express": "^0.12.1",
-    "bs-platform": "^5.0.6",
+    "bs-platform": "^5.2.1",
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
-    "helmet": "^3.21.1",
+    "helmet": "^3.21.2",
     "morgan": "^1.9.1",
-    "react-apollo": "^3.1.2",
+    "react-apollo": "2.5.8",
     "reason-apollo": "^0.17.0",
     "reason-react": "^0.7.0",
-    "relude": "^0.28.1"
+    "relude": "^0.30.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
@@ -36,9 +37,9 @@
     "concurrently": "^5.0.0",
     "cz-conventional-changelog": "^3.0.2",
     "graphql_ppx": "^0.2.8",
-    "husky": "^3.0.8",
+    "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
-    "nodemon": "^1.19.3"
+    "nodemon": "^1.19.4"
   },
   "scripts": {
     "start:client": "yarn workspace @reapl/client start",

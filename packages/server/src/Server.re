@@ -9,6 +9,11 @@ Express.App.use(app, Express.Middleware.json());
 Express.App.use(app, Express.Middleware.urlencoded());
 Express.App.use(app, morgan("dev"));
 Express.App.use(app, helmet());
+
+let apolloServerInstance =
+  ApolloServer.make({"schema": GraphqlSchema.graphqlSchema});
+ApolloServer.applyMiddleware(apolloServerInstance, {"app": app});
+
 Express.App.useOnPath(
   app,
   ~path="/",

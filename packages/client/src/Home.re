@@ -1,3 +1,5 @@
+open Relude.Globals;
+
 type state = {
   packages: string,
   code: string,
@@ -43,17 +45,13 @@ let make = () => {
 
   <GraphQLQueries.SendCodeMutation>
     ...{
-         (mutate, res) => {
+         (mutate, {data}) => {
            let data =
-             switch (res.data) {
-             | Some(data) =>
-               switch (data##runCode) {
-               | Some(data2) => Js.String.make(data2##result)
-               | None => "Incorrect data"
-               }
-             | None => Js.String.make("")
-             };
-
+             data
+             |> Option.flatMap(d => d##runCode)
+             |> Option.fold("No Data. Did you log the final return value?", d =>
+                  d##result |> Js.String.make
+                );
            <div className="container text-center font-weight-bold mt-2">
              {"REAPL" |> ReasonReact.string}
              <form

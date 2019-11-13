@@ -49,7 +49,9 @@ let make = () => {
            let data =
              data
              |> Option.flatMap(d => d##runCode)
-             |> Option.fold("No Data. Did you log the final return value?", d =>
+             |> Option.fold(
+                  "No Data yet. Please make sure to log the final output you want to see.",
+                  d =>
                   d##result |> Js.String.make
                 );
            <div className="container text-center font-weight-bold mt-2">
@@ -63,7 +65,7 @@ let make = () => {
                  }
                }>
                <textarea
-                 placeholder="Enter list of packages separated by line here"
+                 placeholder="Enter list of packages separated by spaces here"
                  className="form-control mt-2"
                  rows=5
                  value={state.packages}
@@ -94,10 +96,9 @@ let make = () => {
                  {"Submit" |> ReasonReact.string}
                </button>
              </form>
-             <div> {Js.String.make(data) |> ReasonReact.string} </div>
+             <div> {data |> ReasonReact.string} </div>
            </div>;
          }
        }
   </GraphQLQueries.SendCodeMutation>;
-  /* <div> {res |> ReasonReact.string} </div> */
 };

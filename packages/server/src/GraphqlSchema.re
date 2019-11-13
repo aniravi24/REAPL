@@ -2,6 +2,9 @@
 external spawnSync: (string, array(string)) => Node.Child_process.spawnResult =
   "spawnSync";
 
+[@bs.module "child_process"]
+external spawnSyncWithError: (string, array(string)) => unit = "spawnSync";
+
 type typeDefs = string;
 type query = {. "dummy": unit => string};
 type result = {. "result": string};
@@ -46,19 +49,40 @@ let resolvers = {
       /* For some reason, packages is undefined and code contains an object with the values */
       Js.log(packages);
       Js.log(code);
-      Node.Fs.writeFileAsUtf8Sync("Code.re", code##code);
+      switch (code##packages) {
+      | "" => ()
+      | _ =>
+        Node.Child_process.execSync(
+          "cd ../../../sandbox/ && yarn add " ++ code##packages,
+          Node.Child_process.option(),
+        )
+        |> ignore
+      };
+
+      Node.Fs.writeFileAsUtf8Sync(
+        "../../../sandbox/" ++ "./Code.re",
+        code##code,
+      );
       let bscSpawnResult =
         Node.Child_process.execSync(
-          "bsc Code.re | node",
+          "cd ../../../sandbox/ && bsc Code.re | node",
           Node.Child_process.option(),
         );
       let finalResult =
         switch ({j|$bscSpawnResult|j}) {
         | "" =>
-          Js.log("Syntax Error");
-          let errorSpawnResult = spawnSync("bsc", [|"Code.re"|]);
-          let stderr = Node.Child_process.readAs(errorSpawnResult)##stderr;
-          {j|$stderr|j};
+          let errorSpawnResult =
+            try (
+              Node.Child_process.execSync(
+                "cd ../../../sandbox/ && bsc Code.re",
+                Node.Child_process.option(),
+              )
+            ) {
+            | Js.Exn.Error(e) =>
+              Js.Exn.message(e)
+              |> Js.Option.getWithDefault("Compilation Error")
+            };
+          {j|$errorSpawnResult|j};
         | _ => bscSpawnResult
         };
       let result = {"result": {j|$finalResult|j}};

@@ -1,6 +1,7 @@
 open Relude.Globals;
 
 type state = {
+  bsconfig: string,
   packages: string,
   code: string,
   result: string,
@@ -8,6 +9,7 @@ type state = {
 
 type action =
   | ShowResult(string)
+  | HandleBsconfigChange(string)
   | HandlePackagesChange(string)
   | HandleCodeChange(string);
 
@@ -19,25 +21,35 @@ let make = () => {
         switch (action) {
         | ShowResult(data) => {
             result: data,
+            bsconfig: state.bsconfig,
             packages: state.packages,
+            code: state.code,
+          }
+        | HandleBsconfigChange(data) => {
+            bsconfig: data,
+            packages: state.packages,
+            result: state.result,
             code: state.code,
           }
         | HandlePackagesChange(data) => {
             packages: data,
+            bsconfig: state.bsconfig,
             result: state.result,
             code: state.code,
           }
         | HandleCodeChange(data) => {
             code: data,
+            bsconfig: state.bsconfig,
             packages: state.packages,
             result: state.result,
           }
         },
-      {packages: "", code: "", result: ""},
+      {bsconfig: "", packages: "", code: "", result: ""},
     );
 
   let runCodeMutation =
     GraphQLQueries.SendCode.make(
+      ~bsconfig=state.bsconfig,
       ~packages=state.packages,
       ~code=state.code,
       (),
@@ -64,6 +76,20 @@ let make = () => {
                    mutate(~variables=runCodeMutation##variables, ()) |> ignore;
                  }
                }>
+               <textarea
+                 placeholder="Enter list of bs-dependencies separated by commas here"
+                 className="form-control mt-2"
+                 rows=5
+                 value={state.bsconfig}
+                 onChange={
+                   event =>
+                     dispatch(
+                       HandleBsconfigChange(
+                         ReactEvent.Form.target(event)##value,
+                       ),
+                     )
+                 }
+               />
                <textarea
                  placeholder="Enter list of packages separated by spaces here"
                  className="form-control mt-2"

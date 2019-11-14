@@ -10,11 +10,12 @@ type query = {. "dummy": unit => string};
 type result = {. "result": string};
 type code = {
   .
+  "bsconfig": string,
   "packages": string,
   "code": string,
 };
 
-type mutation = {. "runCode": (string, code) => result};
+type mutation = {. "runCode": (unit, code) => result};
 type resolvers = {
   .
   "Query": query,
@@ -33,7 +34,7 @@ let typeDefs = {|
       dummy: String
     }
     type Mutation {
-        runCode(packages: String!, code: String!): Result
+        runCode(bsconfig: String!, packages: String!, code: String!): Result
     }
     type Result {
       result: String!
@@ -45,9 +46,7 @@ let resolvers = {
     "dummy": () => "Dummy String",
   },
   "Mutation": {
-    "runCode": (packages, code) => {
-      /* For some reason, packages is undefined and code contains an object with the values */
-      Js.log(packages);
+    "runCode": (_, code) => {
       Js.log(code);
       switch (code##packages) {
       | "" => ()

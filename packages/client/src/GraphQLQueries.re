@@ -1,7 +1,7 @@
 module SendCode = [%graphql
   {|
-    mutation runCode($packages: String!, $code: String!) {
-        runCode(packages: $packages, code: $code) {
+    mutation runCode($bsconfig: String!, $packages: String!, $code: String!) {
+        runCode(bsconfig: $bsconfig, packages: $packages, code: $code) {
             result
         }
     }

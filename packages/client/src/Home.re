@@ -77,7 +77,7 @@ let make = () => {
                  }
                }>
                <textarea
-                 placeholder="Enter list of bs-dependencies separated by commas here"
+                 placeholder="Enter list of bs-dependencies separated by spaces here"
                  className="form-control mt-2"
                  rows=5
                  value={state.bsconfig}

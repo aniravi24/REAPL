@@ -1,3 +1,5 @@
+open Relude.Globals;
+
 [@bs.module "child_process"]
 external spawnSync: (string, array(string)) => Node.Child_process.spawnResult =
   "spawnSync";
@@ -65,6 +67,8 @@ type schema = {
 [@bs.module "apollo-server-express"]
 external makeExecutableSchema: schema => schema = "makeExecutableSchema";
 
+[@bs.get] external getStdOut: Js.Exn.t => option(Node.Buffer.t) = "stdout";
+
 let typeDefs = {|
     type Query {
       dummy: String
@@ -83,14 +87,12 @@ let resolvers = {
   },
   "Mutation": {
     "runCode": (_, code) => {
-      Js.log(code);
       switch (code##bsconfig) {
       | "" => ()
       | _ =>
         let bsconfig =
           Node.Fs.readFileAsUtf8Sync("../../../sandbox/bsconfig.json");
         let parsedConfig = parseIntoBsconfig(bsconfig);
-        Js.log(parsedConfig);
         parsedConfig
         ->bsDependenciesSet(Js.String.split(" ", code##bsconfig));
         let modifiedConfig = Js.Json.stringify(bsconfigToJson(parsedConfig));
@@ -114,26 +116,36 @@ let resolvers = {
         code##code,
       );
       let bscSpawnResult =
-        Node.Child_process.execSync(
-          "cd ../../../sandbox/src/ && bsc Demo.re | node",
-          Node.Child_process.option(),
-        );
+        try (
+          Node.Child_process.execSync(
+            "cd ../../../sandbox/ && yarn build && node src/Demo.bs.js",
+            Node.Child_process.option(),
+          )
+        ) {
+        | Js.Exn.Error(e) =>
+          e
+          |> getStdOut
+          |> Option.map(Node.Buffer.toString)
+          |> Js.Option.getWithDefault("Compilation Error")
+        };
+      let bscSpawnResultString = {j|$bscSpawnResult|j};
       let finalResult =
-        switch ({j|$bscSpawnResult|j}) {
-        | "" =>
-          let errorSpawnResult =
-            try (
-              Node.Child_process.execSync(
-                "cd ../../../sandbox/src/ && bsc Demo.re",
-                Node.Child_process.option(),
-              )
-            ) {
-            | Js.Exn.Error(e) =>
-              Js.Exn.message(e)
-              |> Js.Option.getWithDefault("Compilation Error")
-            };
-          {j|$errorSpawnResult|j};
-        | _ => bscSpawnResult
+        switch (Js.String.lastIndexOf("Building", bscSpawnResultString)) {
+        | index =>
+          let editOutput =
+            Js.String.substring(
+              ~from=index,
+              ~to_=Js.String.length(bscSpawnResultString),
+              bscSpawnResultString,
+            );
+          switch (Js.String.indexOf("\n", editOutput)) {
+          | indexOutput =>
+            Js.String.substring(
+              ~from=indexOutput,
+              ~to_=Js.String.length(editOutput),
+              editOutput,
+            )
+          };
         };
       let result = {"result": {j|$finalResult|j}};
       result;

@@ -62,7 +62,7 @@ let make = () => {
              data
              |> Option.flatMap(d => d##runCode)
              |> Option.fold(
-                  "No Data yet. Please make sure to log the final output you want to see.",
+                  "No Data yet. Wait till it loads, and please make sure to log the final output you want to see.",
                   d =>
                   d##result |> Js.String.make
                 );

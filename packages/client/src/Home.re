@@ -122,7 +122,7 @@ let make = () => {
                  {"Submit" |> ReasonReact.string}
                </button>
              </form>
-             <div> {data |> ReasonReact.string} </div>
+             <pre> <code> {data |> ReasonReact.string} </code> </pre>
            </div>;
          }
        }

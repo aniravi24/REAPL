@@ -7,12 +7,10 @@ external spawnSync: (string, array(string)) => Node.Child_process.spawnResult =
 [@bs.module "child_process"]
 external spawnSyncWithError: (string, array(string)) => unit = "spawnSync";
 
-[@bs.deriving abstract]
 type sources = {
   dir: string,
   subdirs: bool,
 };
-[@bs.deriving abstract]
 type packageSpecs = {
   [@bs.as "module"]
   module_: string,
@@ -20,10 +18,8 @@ type packageSpecs = {
   inSource: bool,
 };
 
-[@bs.deriving abstract]
 type warnings = {error: string};
 
-[@bs.deriving abstract]
 type bsconfig = {
   name: string,
   version: string,
@@ -44,25 +40,24 @@ external parseIntoBsconfig: string => bsconfig = "parse";
 external bsconfigToJson: bsconfig => Js.Json.t = "%identity";
 
 type typeDefs = string;
-type query = {. "dummy": unit => string};
-type result = {. "result": string};
+type query = {dummy: unit => string};
+type result = {result: string};
 type code = {
-  .
-  "bsconfig": string,
-  "packages": string,
-  "code": string,
+  bsconfig: string,
+  packages: string,
+  code: string,
 };
 
-type mutation = {. "runCode": (unit, code) => result};
+type mutation = {runCode: (unit, code) => result};
 type resolvers = {
-  .
-  "Query": query,
-  "Mutation": mutation,
+  [@bs.as "Query"]
+  query,
+  [@bs.as "Mutation"]
+  mutation,
 };
 type schema = {
-  .
-  "typeDefs": typeDefs,
-  "resolvers": resolvers,
+  typeDefs,
+  resolvers,
 };
 [@bs.module "apollo-server-express"]
 external makeExecutableSchema: schema => schema = "makeExecutableSchema";
@@ -82,30 +77,30 @@ let typeDefs = {|
 |};
 
 let resolvers = {
-  "Query": {
-    "dummy": () => "Dummy String",
+  query: {
+    dummy: () => "Dummy String",
   },
-  "Mutation": {
-    "runCode": (_, code) => {
-      switch (code##bsconfig) {
+  mutation: {
+    runCode: (_, code) => {
+      switch (code.bsconfig) {
       | "" => ()
       | _ =>
         let bsconfig =
           Node.Fs.readFileAsUtf8Sync("../../../sandbox/bsconfig.json");
         let parsedConfig = parseIntoBsconfig(bsconfig);
-        parsedConfig
-        ->bsDependenciesSet(Js.String.split(" ", code##bsconfig));
+        parsedConfig.bsDependencies = Js.String.split(" ", code.bsconfig);
+
         let modifiedConfig = Js.Json.stringify(bsconfigToJson(parsedConfig));
         Node.Fs.writeFileAsUtf8Sync(
           "../../../sandbox/" ++ "./bsconfig.json",
           modifiedConfig,
         );
       };
-      switch (code##packages) {
+      switch (code.packages) {
       | "" => ()
       | _ =>
         Node.Child_process.execSync(
-          "cd ../../../sandbox/ && yarn add " ++ code##packages,
+          "cd ../../../sandbox/ && yarn add " ++ code.packages,
           Node.Child_process.option(),
         )
         |> ignore
@@ -113,7 +108,7 @@ let resolvers = {
 
       Node.Fs.writeFileAsUtf8Sync(
         "../../../sandbox/src/" ++ "./Demo.re",
-        code##code,
+        code.code,
       );
       let bscSpawnResult =
         try (
@@ -147,11 +142,11 @@ let resolvers = {
             )
           };
         };
-      let result = {"result": {j|$finalResult|j}};
+      let result = {result: {j|$finalResult|j}};
       result;
     },
   },
 };
 
-let schema = {"typeDefs": typeDefs, "resolvers": resolvers};
+let schema = {typeDefs, resolvers};
 let graphqlSchema = makeExecutableSchema(schema);

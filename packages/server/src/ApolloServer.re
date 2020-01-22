@@ -1,7 +1,7 @@
-type schema = {. "schema": GraphqlSchema.schema};
+type schema = {schema: GraphqlSchema.schema};
 
 type t;
-type expressApp = {. "app": Express.App.t};
+type expressApp = {app: Express.App.t};
 
 [@bs.module "apollo-server-express"] [@bs.new]
 external make: schema => t = "ApolloServer";

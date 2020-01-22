@@ -10,6 +10,7 @@
   "scripts": {
     "parcel": "parcel ./src/index.html",
     "start": "yarn parcel",
-    "build": "parcel build ./src/index.html"
+    "build": "parcel build ./src/index.html",
+    "clean": "rm -rf dist/"
   }
 }

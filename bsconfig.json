@@ -14,7 +14,7 @@
     "in-source": true,
     "module": "commonjs"
   },
-  "ppx-flags": ["graphql_ppx/ppx"],
+  "ppx-flags": ["@baransu/graphql_ppx_re/ppx6"],
   "reason": {
     "react-jsx": 3
   },

@@ -1,9 +1,6 @@
 [@bs.module] external morgan: string => Express.Middleware.t = "morgan";
 [@bs.module] external helmet: unit => Express.Middleware.t = "helmet";
 
-let makeSuccessJson = () =>
-  Json.Encode.object_([("success", Json.Encode.bool(true))]);
-
 let app = Express.express();
 Express.App.use(app, Express.Middleware.json());
 Express.App.use(app, Express.Middleware.urlencoded());

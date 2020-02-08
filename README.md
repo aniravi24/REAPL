@@ -1,7 +1,7 @@
 # REAPL
 ReasonML REPL
 
-A really simple, incomplete REPL for ReasonML that takes in a list of Reason packages, NPM packages, and code.
+A simple, incomplete REPL for ReasonML that takes in a list of Reason packages, NPM packages, and code.
 
 # Usage
 1. Clone this repo, and run `yarn`.

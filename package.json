@@ -16,7 +16,7 @@
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link-http": "^1.5.16",
-    "apollo-server-express": "^2.9.16",
+    "apollo-server-express": "^2.14.2",
     "bs-abstract": "^0.18.0",
     "bs-css": "^11.0.0",
     "bs-express": "^1.0.0",
